@@ -2,8 +2,8 @@
 // Robot Control
 
 #include <Servo.h>
-#define LEFTTURN 2700
-#define RIGHTTURN 2600
+#define LEFTTURN 2700         //Delay for left turn
+#define RIGHTTURN 2600				//Delay for right turn
 
 Servo leftwheel;
 Servo rightwheel;
@@ -34,7 +34,7 @@ void setup()
 
 void loop()
 {
-  while(sensor2Value < 550)
+  while(sensor2Value < 550)				// follow edge till reach pole
   {
     sensor0Value = analogRead(analogInPin0);
     sensor1Value = analogRead(analogInPin1);
@@ -63,49 +63,49 @@ void loop()
     rightwheel.write(rightval);
   }
   
-  delay(400);
+  delay(400);												//After delay of 400ms, turn left
   leftval = 179;
   rightval = 140;
   leftwheel.write(leftval);
   rightwheel.write(rightval);
   delay(LEFTTURN);
   
-  leftval = 30;
+  leftval = 30;											//Drive forward
   rightval = 150;
   leftwheel.write(leftval);
   rightwheel.write(rightval);
   delay(5150);
   
-  sensor2Value = analogRead(analogInPin2);
+  sensor2Value = analogRead(analogInPin2);	//Refresh front sensor value
   
-  while(sensor2Value < 500)
+  while(sensor2Value < 500)									//Continue driving till second pole seen
   {
     sensor2Value = analogRead(analogInPin2);
   }
   
-  leftval = 179;
+  leftval = 179;														//Reverse for 1.5 sec
   rightval = 40;
   leftwheel.write(leftval);
   rightwheel.write(rightval); 
   delay(1500);
   
-  leftval = 0;
+  leftval = 0;															//Turn right
   rightval = 0;
   leftwheel.write(leftval);
   rightwheel.write(rightval);
   delay(RIGHTTURN);
 
-  leftval = 98;
+  leftval = 98;															//Stop servos
   rightval = 96;
   leftwheel.write(leftval);
   rightwheel.write(rightval);
 
-  //run DC motor
+  																					//run DC motor
   digitalWrite(motorBrake, LOW);
   digitalWrite(motorDir, HIGH);
-  analogWrite(motorPWM, 255);
+  analogWrite(motorPWM, 255);								//Motor speed set to max
  
-  delay(5000);
+  delay(5000);															//Run for 5 sec then stop with brake
   digitalWrite(motorBrake, HIGH);
   analogWrite(motorPWM, 0);  
   
